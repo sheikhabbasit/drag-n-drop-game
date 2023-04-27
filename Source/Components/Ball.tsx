@@ -1,12 +1,13 @@
 import {View, Text, Animated, StyleSheet, PanResponder} from 'react-native';
-import React, {useRef} from 'react';
+import React, {useEffect, useRef} from 'react';
 
 type props = {
   label: string;
   reset: (e: string, reachedThreshold: boolean) => void;
+  activeBall: string;
 };
 
-const Ball = ({label, reset}: props): JSX.Element => {
+const Ball = ({label, reset, activeBall}: props): JSX.Element => {
   const pan = useRef(new Animated.ValueXY()).current;
 
   const panResponder = useRef(
@@ -16,7 +17,7 @@ const Ball = ({label, reset}: props): JSX.Element => {
         useNativeDriver: false,
       }),
       onPanResponderRelease: () => {
-        if (+pan.y._value > 222) {
+        if (+pan.y._value > 200) {
           reset(label, true);
         } else {
           reset(label, false);
@@ -24,6 +25,8 @@ const Ball = ({label, reset}: props): JSX.Element => {
       },
     }),
   ).current;
+
+  useEffect(() => {}, [activeBall]);
 
   return (
     <Animated.View

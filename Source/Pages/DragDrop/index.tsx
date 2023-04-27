@@ -12,19 +12,26 @@ const DragDrop = (): JSX.Element => {
     <SafeAreaView style={styles.screen}>
       {successStatus.success && successStatus.show && (
         <LottieView
-          source={require('../Assets/LottieAnimations/success.json')}
+          source={require('../../Assets/LottieAnimations/success.json')}
           autoPlay
         />
       )}
       {!successStatus.success && successStatus.show && (
         <LottieView
-          source={require('../Assets/LottieAnimations/failed.json')}
+          source={require('../../Assets/LottieAnimations/failed.json')}
           autoPlay
         />
       )}
       <View style={styles.ballsArray}>
         {ballsArray.map((ball, index) => {
-          return <Ball label={ball} key={index} reset={reset} />;
+          return (
+            <Ball
+              label={ball}
+              key={index}
+              reset={reset}
+              activeBall={activeBall}
+            />
+          );
         })}
       </View>
       <View style={styles.pit}>

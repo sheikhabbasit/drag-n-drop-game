@@ -2,7 +2,7 @@ import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import Login from '../Pages/Login';
 import Flatlists from '../Pages/Flatlists';
-import DragDrop from '../Pages/DragDrop';
+import DragDrop from '../Pages/DragDrop/index';
 const Stack = createNativeStackNavigator();
 
 function PublicNavigator(): JSX.Element {
