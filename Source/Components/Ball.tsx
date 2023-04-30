@@ -40,7 +40,7 @@ const Ball = ({label, successStatus, setSuccessStatus}: props): JSX.Element => {
               routes: [{name: 'DragDrop'}],
             }),
           );
-        }, 1500);
+        }, 3000);
       },
     }),
   ).current;
