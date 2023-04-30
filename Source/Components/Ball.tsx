@@ -1,13 +1,21 @@
 import {View, Text, Animated, StyleSheet, PanResponder} from 'react-native';
-import React, {useEffect, useRef} from 'react';
+import React, {useRef} from 'react';
+import {CommonActions} from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 
 type props = {
   label: string;
-  reset: (e: string, reachedThreshold: boolean) => void;
-  activeBall: string;
+  ballsArray: string[];
+  successStatus: {success: boolean; show: boolean; activeBall: string};
+  setSuccessStatus: (e: {
+    success: boolean;
+    show: boolean;
+    activeBall: string;
+  }) => void;
 };
 
-const Ball = ({label, reset, activeBall}: props): JSX.Element => {
+const Ball = ({label, successStatus, setSuccessStatus}: props): JSX.Element => {
+  const navigation = useNavigation();
   const pan = useRef(new Animated.ValueXY()).current;
 
   const panResponder = useRef(
@@ -17,16 +25,25 @@ const Ball = ({label, reset, activeBall}: props): JSX.Element => {
         useNativeDriver: false,
       }),
       onPanResponderRelease: () => {
-        if (+pan.y._value > 200) {
-          reset(label, true);
+        console.log(+pan.y._value, label, successStatus.activeBall);
+
+        if (+pan.y._value > 200 && label === successStatus.activeBall) {
+          setSuccessStatus({success: true, show: true, activeBall: ''});
         } else {
-          reset(label, false);
+          setSuccessStatus({success: false, show: true, activeBall: ''});
         }
+
+        setTimeout(() => {
+          navigation.dispatch(
+            CommonActions.reset({
+              index: 1,
+              routes: [{name: 'DragDrop'}],
+            }),
+          );
+        }, 1500);
       },
     }),
   ).current;
-
-  useEffect(() => {}, [activeBall]);
 
   return (
     <Animated.View

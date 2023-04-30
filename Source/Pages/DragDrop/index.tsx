@@ -1,12 +1,13 @@
 import React from 'react';
-import {SafeAreaView, StyleSheet, Text, View} from 'react-native';
+import {SafeAreaView, Text, View} from 'react-native';
 import Ball from '../../Components/Ball';
 import LottieView from 'lottie-react-native';
 import {useDragDropController} from './dragDrop.controller';
+import {useStyles} from './useStyles';
 
 const DragDrop = (): JSX.Element => {
-  const {reset, successStatus, ballsArray, activeBall} =
-    useDragDropController();
+  const {successStatus, ballsArray, setSuccessStatus} = useDragDropController();
+  const styles = useStyles();
 
   return (
     <SafeAreaView style={styles.screen}>
@@ -27,56 +28,19 @@ const DragDrop = (): JSX.Element => {
           return (
             <Ball
               label={ball}
+              ballsArray={ballsArray}
               key={index}
-              reset={reset}
-              activeBall={activeBall}
+              successStatus={successStatus}
+              setSuccessStatus={setSuccessStatus}
             />
           );
         })}
       </View>
       <View style={styles.pit}>
-        <Text style={styles.text}>{activeBall}</Text>
+        <Text style={styles.text}>{successStatus.activeBall}</Text>
       </View>
     </SafeAreaView>
   );
 };
 
-export default DragDrop;
-
-const styles = StyleSheet.create({
-  screen: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  ball: {
-    width: 50,
-    height: 50,
-    borderRadius: 30,
-    backgroundColor: 'black',
-  },
-  ballsArray: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  pit: {
-    zIndex: 1,
-    position: 'absolute',
-    bottom: 0,
-    width: '100%',
-    height: 100,
-    backgroundColor: 'yellow',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  text: {
-    fontSize: 18,
-    color: 'grey',
-    // color: 'white',
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-});
+export default React.memo(DragDrop);
